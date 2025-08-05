@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>おみくじ抽選プログラム</title>
+    <!-- jQuery読み込み -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            text-align: center;
+            padding-top: 100px;
+            background-color: #f5f5f5;
+        }
+        .rand_name {
+            font-size: 60px;
+            font-weight: bold;
+            margin: 30px 0;
+            color: #ff0000;
+        }
+        button {
+            font-size: 24px;
+            padding: 10px 30px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>おみくじ抽選！</h1>
+    <div class="rand_name">？？？</div>
+    <button class="stop">ストップ！</button>
+    <button class="restart" style="display:none;">もう一回！</button>
+
+    <script>
+    $(function(){
+        var aryList = ['大吉','吉','中吉','小吉','末吉','凶','大凶'];
+        var key = 0;
+        var max_len = aryList.length - 1;
+        var randStart;
+        var speed = 20;
+
+        var randShuffle= function(){
+            if(key > max_len) key = 0;
+            $('.rand_name').text(aryList[key]);
+            key++;
+        }
+
+        randStart = setInterval(randShuffle, speed);
+
+        $('.stop').click(function(){
+            var random = Math.floor(Math.random() * (max_len + 1));
+            $('.rand_name').text(aryList[random]);
+            clearInterval(randStart);
+            $(this).hide();
+            $('.restart').show();
+        });
+
+        $('.restart').click(function(){
+            $(this).hide();
+            $('.stop').show();
+            randStart = setInterval(randShuffle, speed);
+        });
+    });
+    </script>
+</body>
+</html>
